@@ -1,0 +1,12 @@
+{
+  "little_gremlin_idle": {
+    "sounds": [
+      "nightmares:little_gremlin_idle"
+    ]
+  },
+  "little_gremlin_death": {
+    "sounds": [
+      "nightmares:little_gremlin_death"
+    ]
+  }
+}

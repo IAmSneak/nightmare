@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "nightmares",
+  "version": "${version}",
+
+  "name": "Example Mod",
+  "description": "Monster Mash! Monster's mash items and poop resources!",
+  "authors": [
+    "Dandin87/Trent87",
+    "The_Monster_Zero"
+  ],
+  "contact": {
+    "homepage": "https://github.com/dandin87/",
+    "sources": "https://github.com/dandin87/MonsterMash"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/nightmares/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.dandin87.monstermash.Nightmares"
+    ],
+    "client": [
+      "io.dandin87.monstermash.client.NightmaresClient"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  },
+  "accessWidener" : "example.accesswidener"
+}
