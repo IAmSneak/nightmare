@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.dandin87.monstermash.util.registry.MobEntityRegister;
+import io.dandin87.monstermash.util.registry.EntityRegistry;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.world.biome.Biome;
@@ -18,7 +18,7 @@ public class MobSpawn {
 		for (Biome biome : BuiltinRegistries.BIOME) {
 			if (biome.getCategory().equals(Biome.Category.NETHER)) {
 				addMobSpawnToBiome(biome, SpawnGroup.MONSTER,
-						new SpawnSettings.SpawnEntry(MobEntityRegister.LITTLE_GREMLIN, 40, 1, 1));
+						new SpawnSettings.SpawnEntry(EntityRegistry.LITTLE_GREMLIN_ENTITY, 40, 1, 1));
 			}
 		}
 	}

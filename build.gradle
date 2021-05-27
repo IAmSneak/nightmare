@@ -23,13 +23,11 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// Gecko Lib
-	//modCompile "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
-	modImplementation "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
-	//include "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
+	modImplementation "software.bernie.geckolib:geckolib-${project.geckolib_minecraft_version}:${project.geckolib_version}"
 }
 
 repositories {
+	maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
 	maven {
 		name = "Ladysnake Libs"
 		url = 'https://dl.bintray.com/ladysnake/libs'
@@ -38,9 +36,7 @@ repositories {
 		name = "OnyxStudios"
 		url = "https://maven.abusedmaster.xyz"
 	}
-	maven {
-		url = 'https://repo.repsy.io/mvn/gandiber/geckolib' }
-	}
+}
 
 processResources {
 	inputs.property "version", project.version
@@ -73,24 +69,3 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 jar {
 	from "LICENSE"
 }
-
-// configure the maven publication
-//publishing {
-//	publications {
-//		mavenJava(MavenPublication) {
-//			// add all the jars that should be included when publishing to maven
-//			artifact(remapJar) {
-//				builtBy remapJar
-//			}
-//			artifact(sourcesJar) {
-//				builtBy remapSourcesJar
-//			}
-//		}
-//	}
-//
-//	// select the repositories you want to publish to
-//	repositories {
-//		// uncomment to publish to the local maven
-//		// mavenLocal()
-//	}
-//}

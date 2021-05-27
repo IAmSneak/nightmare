@@ -13,8 +13,6 @@ public class ModSoundEvents {
 	public static SoundEvent LITTLE_GREMLIN_IDLE_EVENT = new SoundEvent(LITTLE_GREMLIN_IDLE);
 	public static SoundEvent LITTLE_GREMLIN_DEATH_EVENT = new SoundEvent(LITTLE_GREMLIN_DEATH);
 
-
-
 	public static void init(){
 		Registry.register(Registry.SOUND_EVENT, ModSoundEvents.LITTLE_GREMLIN_IDLE, LITTLE_GREMLIN_IDLE_EVENT);
 		Registry.register(Registry.SOUND_EVENT, ModSoundEvents.LITTLE_GREMLIN_DEATH, LITTLE_GREMLIN_DEATH_EVENT);

@@ -23,7 +23,7 @@
       "io.dandin87.monstermash.Nightmares"
     ],
     "client": [
-      "io.dandin87.monstermash.client.NightmaresClient"
+      "io.dandin87.monstermash.ClientListener"
     ]
   },
 

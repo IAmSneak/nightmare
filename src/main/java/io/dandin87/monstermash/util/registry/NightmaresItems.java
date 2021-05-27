@@ -9,8 +9,7 @@ import net.minecraft.util.registry.Registry;
 public class NightmaresItems {
 
 	// Spawn Eggs
-
-	public static ExampleSpawnEgg LITTLE_GREMLIN_SPAWN_EGG = item(new ExampleSpawnEgg(MobEntityRegister.LITTLE_GREMLIN),
+	public static ExampleSpawnEgg LITTLE_GREMLIN_SPAWN_EGG = item(new ExampleSpawnEgg(EntityRegistry.LITTLE_GREMLIN_ENTITY),
 			"little_gremlin_spawn_egg");
 
 	static <T extends Item> T item(T c, String id) {

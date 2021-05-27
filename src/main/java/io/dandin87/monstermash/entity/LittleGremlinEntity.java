@@ -1,155 +1,80 @@
 package io.dandin87.monstermash.entity;
 
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import io.dandin87.monstermash.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.Random;
 
 @SuppressWarnings("ALL")
-public class LittleGremlinEntity extends NightmaresEntity implements IAnimatedEntity {
+public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable {
 	private static TrackedData<Boolean> SHOOTING;
 
-	EntityAnimationManager manager = new EntityAnimationManager();
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	EntityAnimationController controller = new EntityAnimationController(this, "walkController", 5,
-			this::animationPredicate);
+	private AnimationFactory factory = new AnimationFactory(this);
 
-	public LittleGremlinEntity(EntityType<LittleGremlinEntity> entityType, World worldIn) {
-		super(entityType, worldIn);
-		manager.addAnimationController(controller);
+	public LittleGremlinEntity(EntityType<? extends NightmaresEntity> type, World worldIn)
+	{
+		super(type, worldIn);
+		this.ignoreCameraFrustum = true;
 	}
 
-	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
-		if (this.dataTracker.get(SHOOTING)){
-			System.out.println("Attacking");
-			controller.setAnimation(new AnimationBuilder().addAnimation("attack", true));
-			return true;
-		}
-		if (!(lastLimbDistance > -0.15F && this.lastLimbDistance < 0.15F)) {
-			System.out.println("Walking");
-			controller.setAnimation(new AnimationBuilder().addAnimation("walk", true));
-			return true;
-		}
-		return false;
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
+	{
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.arms", true));
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.munch", true));
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.walking", true));
+		return PlayState.CONTINUE;
 	}
 
 	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return manager;
+	public void registerControllers(AnimationData data)
+	{
+		data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory()
+	{
+		return this.factory;
 	}
 
 	@Override
 	protected void initGoals() {
-		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.add(6, new LookAroundGoal(this));
-		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
-		this.goalSelector.add(6, new AttackGoal(this));
-		this.goalSelector.add(7, new LittleGremlinEntity.ShootFireballGoal(this));
+		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.add(5, new LookAroundGoal(this));
+		this.goalSelector.add(4, new WanderAroundFarGoal(this, 0.8D));
+		this.goalSelector.add(5, new AttackGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
 	}
 
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean)this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
-
-	static {
-		SHOOTING = DataTracker.registerData(LittleGremlinEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	}
-
-	static class ShootFireballGoal extends Goal {
-		private final LittleGremlinEntity pumpkin;
-		public int cooldown;
-
-		public ShootFireballGoal(LittleGremlinEntity pumpkin) {
-			this.pumpkin = pumpkin;
-		}
-
-		public boolean canStart() {
-			return this.pumpkin.getTarget() != null;
-		}
-
-		public void start() {
-			this.cooldown = 0;
-		}
-
-		public void stop() {
-			this.pumpkin.setShooting(false);
-		}
-
-		public void tick() {
-			LivingEntity livingEntity = this.pumpkin.getTarget();
-			double d = 64.0D;
-			if (livingEntity.squaredDistanceTo(this.pumpkin) < 4096.0D && this.pumpkin.canSee(livingEntity)) {
-				World world = this.pumpkin.world;
-				++this.cooldown;
-				if (this.cooldown == 10 && !this.pumpkin.isSilent()) {
-					world.syncWorldEvent((PlayerEntity)null, 1015, this.pumpkin.getBlockPos(), 0);
-				}
-
-				if (this.cooldown == 40) {
-					double e = 4.0D;
-					Vec3d vec3d = this.pumpkin.getRotationVec(1.0F);
-					double f = livingEntity.getX() - (this.pumpkin.getX() + vec3d.x * 4.0D);
-					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.pumpkin.getBodyY(0.5D));
-					double h = livingEntity.getZ() - (this.pumpkin.getZ() + vec3d.z * 4.0D);
-					if (!this.pumpkin.isSilent()) {
-						world.syncWorldEvent((PlayerEntity)null, 1016, this.pumpkin.getBlockPos(), 0);
-					}
-
-					FireballEntity fireballEntity = new FireballEntity(world, this.pumpkin, f, g, h);
-					fireballEntity.updatePosition(this.pumpkin.getX() + vec3d.x * 4.0D, this.pumpkin.getBodyY(0.5D) + 0.5D, fireballEntity.getZ() + vec3d.z * 4.0D);
-					world.spawnEntity(fireballEntity);
-					this.cooldown = -80;
-				}
-			} else if (this.cooldown > 0) {
-				--this.cooldown;
-			}
-
-			this.pumpkin.setShooting(this.cooldown > 10);
-		}
-	}
-
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
