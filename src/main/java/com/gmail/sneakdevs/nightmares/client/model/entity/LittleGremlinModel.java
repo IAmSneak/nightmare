@@ -7,7 +7,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class LittleGremlinModel extends AnimatedGeoModel {
     @Override
     public Identifier getAnimationFileLocation(Object entity) {
-        return new Identifier(Nightmares.MODID, "animations/little_gremlin.walking.json");
+        return new Identifier(Nightmares.MODID, "animations/little_gremlin.walk.json");
     }
 
     @Override

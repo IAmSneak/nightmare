@@ -7,10 +7,6 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -26,12 +22,12 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 @SuppressWarnings("all")
-public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
+public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable {
 
 	//Animation things
 	private AnimationFactory factory = new AnimationFactory(this);
 
-	public LittleGremlinEntity(EntityType<? extends HostileEntity> type, World worldIn)
+	public LittleGremlinEntity(EntityType<? extends NightmaresEntity> type, World worldIn)
 	{
 		super(type, worldIn);
 		this.ignoreCameraFrustum = true;
@@ -40,6 +36,7 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.walk", true));
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.attack", true));
 		return PlayState.CONTINUE;
 	}
 
@@ -58,15 +55,12 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 	//Goals
 	@Override
 	protected void initGoals() {
+		this.goalSelector.add(2, new FleeEntityGoal(this, SpiderEntity.class, 6.0F, 1.0D, 1.2D));
 		this.goalSelector.add(1, new SwimGoal(this));
-		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.add(5, new LookAroundGoal(this));
-		this.goalSelector.add(4, new WanderAroundFarGoal(this, 0.8D));
-		this.goalSelector.add(5, new AttackGoal(this));
-		this.goalSelector.add(3, new FleeEntityGoal(this, SpiderEntity.class, 6.0F, 1.0D, 1.2D));
-		this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.4F));
-		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
-		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
+		this.goalSelector.add(3, new AttackGoal(this));
+		this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
+		this.targetSelector.add(4, new RevengeGoal(this, new Class[0]));
+		this.targetSelector.add(3, new FollowTargetGoal(this, PlayerEntity.class, false));
 	}
 
 	protected void initDataTracker() {
@@ -75,9 +69,9 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 
 	//Attributes
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D);
+		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 500.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 40.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D);
 	}
 
 	public void readCustomDataFromTag(CompoundTag tag) {
@@ -87,7 +81,7 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 	//Properties
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 1.0F;
+		return 2.0F;
 	}
 
 	protected boolean shouldDrown() {
@@ -97,7 +91,6 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 	protected boolean shouldBurnInDay() {
 		return false;
 	}
-
 
 	//Sounds
 	@Override
