@@ -12,7 +12,7 @@ import software.bernie.example.registry.EntityRegistryBuilder;
 
 public class EntityRegistry {
 	public static final EntityType<LittleGremlinEntity> LITTLE_GREMLIN_ENTITY = buildEntity(LittleGremlinEntity::new,
-			LittleGremlinEntity.class, .7F, 1.3F);
+			LittleGremlinEntity.class, .6F, 1.4F);
 
 	public static <T extends Entity> EntityType<T> buildEntity(EntityType.EntityFactory<T> entity, Class<T> entityClass,
 															   float width, float height) {

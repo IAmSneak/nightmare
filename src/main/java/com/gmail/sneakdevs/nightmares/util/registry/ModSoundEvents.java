@@ -1,4 +1,4 @@
-package com.gmail.sneakdevs.nightmares.util;
+package com.gmail.sneakdevs.nightmares.util.registry;
 
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;

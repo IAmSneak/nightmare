@@ -1,21 +1,21 @@
 package com.gmail.sneakdevs.nightmares.entity;
 
-import com.gmail.sneakdevs.nightmares.util.ModSoundEvents;
+import com.gmail.sneakdevs.nightmares.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -28,6 +28,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 @SuppressWarnings("all")
 public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 
+	//Animation things
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	public LittleGremlinEntity(EntityType<? extends HostileEntity> type, World worldIn)
@@ -54,13 +55,16 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 		return this.factory;
 	}
 
+	//AI
 	@Override
 	protected void initGoals() {
+		this.goalSelector.add(1, new SwimGoal(this));
 		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(5, new LookAroundGoal(this));
 		this.goalSelector.add(4, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(5, new AttackGoal(this));
 		this.goalSelector.add(3, new FleeEntityGoal(this, SpiderEntity.class, 6.0F, 1.0D, 1.2D));
+		this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.4F));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 	}
@@ -71,7 +75,7 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D);
 	}
 
@@ -79,6 +83,7 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 		super.readCustomDataFromTag(tag);
 	}
 
+	//Properties
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
 		return 1.0F;
@@ -92,6 +97,8 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 		return false;
 	}
 
+
+	//Sounds
 	@Override
 	protected SoundEvent getAmbientSound() {
 		return ModSoundEvents.LITTLE_GREMLIN_IDLE_EVENT;
