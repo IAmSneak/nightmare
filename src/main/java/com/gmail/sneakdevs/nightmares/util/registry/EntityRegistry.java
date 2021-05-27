@@ -1,13 +1,14 @@
-package io.dandin87.monstermash.util.registry;
+package com.gmail.sneakdevs.nightmares.util.registry;
 
-import io.dandin87.monstermash.Nightmares;
-import io.dandin87.monstermash.entity.LittleGremlinEntity;
+import com.gmail.sneakdevs.nightmares.Nightmares;
+import com.gmail.sneakdevs.nightmares.entity.LittleGremlinEntity;
 import net.fabricmc.loader.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
+import software.bernie.example.registry.EntityRegistryBuilder;
 
 public class EntityRegistry {
 	public static final EntityType<LittleGremlinEntity> LITTLE_GREMLIN_ENTITY = buildEntity(LittleGremlinEntity::new,

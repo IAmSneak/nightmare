@@ -1,6 +1,5 @@
-package io.dandin87.monstermash.util;
+package com.gmail.sneakdevs.nightmares.util;
 
-import io.dandin87.monstermash.Nightmares;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

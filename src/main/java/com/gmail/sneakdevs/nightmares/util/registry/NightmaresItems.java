@@ -1,7 +1,7 @@
-package io.dandin87.monstermash.util.registry;
+package com.gmail.sneakdevs.nightmares.util.registry;
 
-import io.dandin87.monstermash.Nightmares;
-import io.dandin87.monstermash.item.eggs.ExampleSpawnEgg;
+import com.gmail.sneakdevs.nightmares.Nightmares;
+import com.gmail.sneakdevs.nightmares.item.eggs.ExampleSpawnEgg;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

@@ -1,17 +1,15 @@
-package io.dandin87.monstermash.entity;
+package com.gmail.sneakdevs.nightmares.entity;
 
-import io.dandin87.monstermash.util.ModSoundEvents;
+import com.gmail.sneakdevs.nightmares.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.SpiderEntity;
+import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
@@ -25,16 +23,14 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.shadowed.eliotlash.mclib.math.functions.utility.Random;
 
-import java.util.Random;
-
-@SuppressWarnings("ALL")
-public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable {
-	private static TrackedData<Boolean> SHOOTING;
+@SuppressWarnings("all")
+public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);
 
-	public LittleGremlinEntity(EntityType<? extends NightmaresEntity> type, World worldIn)
+	public LittleGremlinEntity(EntityType<? extends HostileEntity> type, World worldIn)
 	{
 		super(type, worldIn);
 		this.ignoreCameraFrustum = true;
@@ -42,9 +38,7 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.arms", true));
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.munch", true));
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.walking", true));
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.walk", true));
 		return PlayState.CONTINUE;
 	}
 
@@ -66,6 +60,7 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 		this.goalSelector.add(5, new LookAroundGoal(this));
 		this.goalSelector.add(4, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(5, new AttackGoal(this));
+		this.goalSelector.add(3, new FleeEntityGoal(this, SpiderEntity.class, 6.0F, 1.0D, 1.2D));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
@@ -78,13 +73,13 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.8D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D);
 	}
 
-	public static boolean spawning(EntityType<LittleGremlinEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
-                                   BlockPos p_223337_3_, Random p_223337_4_) {
-		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
+	public static boolean spawning(EntityType<LittleGremlinEntity> entityType, World world, SpawnReason reason,
+								   BlockPos blockPos, Random random) {
+		return world.getDifficulty() != Difficulty.PEACEFUL;
 	}
 
 
@@ -123,4 +118,5 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 	protected void playStepSound(BlockPos pos, BlockState blockIn) {
 		this.playSound(this.getStepSound(), 0.15F, 1.0F);
 	}
+
 }

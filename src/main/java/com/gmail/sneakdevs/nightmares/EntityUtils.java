@@ -1,4 +1,4 @@
-package io.dandin87.monstermash;
+package com.gmail.sneakdevs.nightmares;
 
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;

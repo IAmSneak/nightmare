@@ -1,4 +1,4 @@
-package io.dandin87.monstermash.util.registry;
+package com.gmail.sneakdevs.nightmares.util.registry;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;

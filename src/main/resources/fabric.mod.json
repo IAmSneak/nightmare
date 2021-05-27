@@ -3,15 +3,13 @@
   "id": "nightmares",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "Monster Mash! Monster's mash items and poop resources!",
+  "name": "Nightmares",
+  "description": "Monsters to make your experience harder as you go on.",
   "authors": [
-    "Dandin87/Trent87",
-    "The_Monster_Zero"
+    "IAmSneak"
   ],
   "contact": {
-    "homepage": "https://github.com/dandin87/",
-    "sources": "https://github.com/dandin87/MonsterMash"
+    "sources": "https://github.com/IAmSneak/nightmare"
   },
 
   "license": "CC0-1.0",
@@ -20,10 +18,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.dandin87.monstermash.Nightmares"
+      "com.gmail.sneakdevs.nightmares.Nightmares"
     ],
     "client": [
-      "io.dandin87.monstermash.ClientListener"
+      "com.gmail.sneakdevs.nightmares.ClientListener"
     ]
   },
 
