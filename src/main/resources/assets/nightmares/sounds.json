@@ -8,5 +8,10 @@
     "sounds": [
       "nightmares:little_gremlin_death"
     ]
+  },
+  "little_gremlin_hurt": {
+    "sounds": [
+      "nightmares:little_gremlin_hurt"
+    ]
   }
 }

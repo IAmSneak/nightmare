@@ -6,6 +6,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpiderEntity;
@@ -23,7 +24,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.shadowed.eliotlash.mclib.math.functions.utility.Random;
 
 @SuppressWarnings("all")
 public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
@@ -63,8 +63,6 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 		this.goalSelector.add(3, new FleeEntityGoal(this, SpiderEntity.class, 6.0F, 1.0D, 1.2D));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
 	}
 
 	protected void initDataTracker() {
@@ -73,15 +71,9 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D);
 	}
-
-	public static boolean spawning(EntityType<LittleGremlinEntity> entityType, World world, SpawnReason reason,
-								   BlockPos blockPos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL;
-	}
-
 
 	public void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
@@ -108,6 +100,11 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 	@Override
 	protected SoundEvent getDeathSound() {
 		return ModSoundEvents.LITTLE_GREMLIN_DEATH_EVENT;
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return ModSoundEvents.LITTLE_GREMLIN_HURT_EVENT;
 	}
 
 	protected SoundEvent getStepSound() {
