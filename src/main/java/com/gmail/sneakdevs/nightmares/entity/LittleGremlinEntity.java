@@ -55,7 +55,7 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 		return this.factory;
 	}
 
-	//AI
+	//Goals
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(1, new SwimGoal(this));
@@ -73,6 +73,7 @@ public class LittleGremlinEntity extends HostileEntity implements IAnimatable {
 		super.initDataTracker();
 	}
 
+	//Attributes
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0D)
