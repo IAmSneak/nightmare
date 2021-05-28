@@ -80,7 +80,7 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 500.0D)
+		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 40.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D)
 				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5F);

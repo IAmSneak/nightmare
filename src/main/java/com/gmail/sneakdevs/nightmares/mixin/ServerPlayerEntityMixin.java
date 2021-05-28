@@ -25,7 +25,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     }
 
     @Inject(at = @At(value="TAIL"), method = "playerTick")
-    private void tick(CallbackInfo callbackInfo) {
+    private void spawnGremlin(CallbackInfo callbackInfo) {
         ServerWorld world1 = this.getServerWorld();
 
         if (!this.world.isClient && this.world.getTimeOfDay() == 157000) {
