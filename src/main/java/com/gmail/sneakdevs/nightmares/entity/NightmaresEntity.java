@@ -1,7 +1,6 @@
 package com.gmail.sneakdevs.nightmares.entity;
 
 import java.util.Random;
-import java.util.function.Predicate;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.EntityAttributes;

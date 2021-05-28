@@ -9,7 +9,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 
 public class EntityRegistry {
-	public static final EntityType<LittleGremlinEntity> LITTLE_GREMLIN_ENTITY = buildEntity(LittleGremlinEntity::new, LittleGremlinEntity.class, 1.0F, 2.3F);
+	public static final EntityType<LittleGremlinEntity> LITTLE_GREMLIN_ENTITY = buildEntity(LittleGremlinEntity::new, LittleGremlinEntity.class, 0.45F, 1.1F);
 
 	public static <T extends Entity> EntityType<T> buildEntity(EntityType.EntityFactory<T> entity, Class<T> entityClass, float width, float height) {
 		String name = entityClass.getSimpleName().toLowerCase();

@@ -9,6 +9,6 @@ public class LittleGremlinRenderer extends GeoEntityRenderer<LittleGremlinEntity
     public LittleGremlinRenderer(EntityRenderDispatcher renderManager)
     {
         super(renderManager, new LittleGremlinModel());
-        this.shadowRadius = 0.7F; //change 0.7 to the desired shadow size.
+        this.shadowRadius = 0.35F; //change 0.7 to the desired shadow size.
     }
 }

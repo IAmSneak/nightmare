@@ -12,7 +12,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -20,6 +22,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
 
 @SuppressWarnings("all")
 public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable {
@@ -36,7 +39,6 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.walk", true));
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.little_gremlin.attack", true));
 		return PlayState.CONTINUE;
 	}
 
@@ -67,11 +69,39 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 		super.initDataTracker();
 	}
 
+	public void tick() {
+		if (!this.world.isClient && world.getTimeOfDay() >= 172500) {
+			this.kill();
+		}
+
+		super.tick();
+	}
+
+	public boolean canImmediatelyDespawn(double distanceSquared) {
+		return false;
+	}
+
+
 	//Attributes
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 500.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 40.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D);
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 40.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D)
+				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F);
+	}
+
+	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
+
+		if (fallDistance > 30 && !this.world.isClient && world.getTimeOfDay() >= 158500) {
+			Explosion.DestructionType destructionType = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.BREAK : Explosion.DestructionType.NONE;
+			this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), 16.0F, destructionType);
+		}
+
+		return false;
+	}
+
+	public void writeCustomDataToTag(CompoundTag tag) {
+		super.writeCustomDataToTag(tag);
 	}
 
 	public void readCustomDataFromTag(CompoundTag tag) {
@@ -81,11 +111,21 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 	//Properties
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 2.0F;
+		return 1.0F;
 	}
 
 	protected boolean shouldDrown() {
 		return false;
+	}
+
+	@Override
+	public boolean isFireImmune() {
+		return true;
+	}
+
+	@Override
+	public boolean canBreatheInWater() {
+		return true;
 	}
 
 	protected boolean shouldBurnInDay() {
