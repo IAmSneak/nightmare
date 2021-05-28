@@ -24,6 +24,9 @@
       "com.gmail.sneakdevs.nightmares.ClientListener"
     ]
   },
+  "mixins": [
+    "nightmares.mixins.json"
+  ],
 
   "depends": {
     "fabricloader": ">=0.7.4",

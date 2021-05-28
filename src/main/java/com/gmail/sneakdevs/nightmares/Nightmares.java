@@ -1,6 +1,7 @@
 package com.gmail.sneakdevs.nightmares;
 
-import com.gmail.sneakdevs.nightmares.entity.LittleGremlinEntity;
+import com.gmail.sneakdevs.nightmares.entity.entity.LittleGremlinEntity;
+import com.gmail.sneakdevs.nightmares.entity.spawners.LittleGremlinSpawner;
 import com.gmail.sneakdevs.nightmares.util.registry.ModSoundEvents;
 import com.gmail.sneakdevs.nightmares.util.registry.EntityRegistry;
 import com.gmail.sneakdevs.nightmares.util.registry.NightmaresItems;

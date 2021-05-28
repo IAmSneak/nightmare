@@ -1,4 +1,4 @@
-package com.gmail.sneakdevs.nightmares.entity;
+package com.gmail.sneakdevs.nightmares.entity.entity;
 
 import com.gmail.sneakdevs.nightmares.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
@@ -27,7 +27,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 @SuppressWarnings("all")
 public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable {
 
-	//Animation things
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	public LittleGremlinEntity(EntityType<? extends NightmaresEntity> type, World worldIn)
@@ -54,10 +53,9 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 		return this.factory;
 	}
 
-	//Goals
 	@Override
 	protected void initGoals() {
-		this.goalSelector.add(2, new FleeEntityGoal(this, SpiderEntity.class, 6.0F, 1.0D, 1.2D));
+		this.goalSelector.add(2, new FleeEntityGoal(this, SpiderEntity.class, 10.0F, 1.0D, 1.2D));
 		this.goalSelector.add(1, new SwimGoal(this));
 		this.goalSelector.add(3, new AttackGoal(this));
 		this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
@@ -70,7 +68,7 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 	}
 
 	public void tick() {
-		if (!this.world.isClient && world.getTimeOfDay() >= 172500) {
+		if (!this.world.isClient && world.getTimeOfDay() == 167500) {
 			this.kill();
 		}
 
@@ -81,20 +79,18 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 		return false;
 	}
 
-
-	//Attributes
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 500.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 40.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D)
-				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F);
+				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5F);
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
 
-		if (fallDistance > 30 && !this.world.isClient && world.getTimeOfDay() >= 158500) {
+		if (fallDistance > 30 && !this.world.isClient && world.getTimeOfDay() >= 156500) {
 			Explosion.DestructionType destructionType = this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.BREAK : Explosion.DestructionType.NONE;
-			this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), 16.0F, destructionType);
+			this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), 12.0F, destructionType);
 		}
 
 		return false;
@@ -108,10 +104,14 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 		super.readCustomDataFromTag(tag);
 	}
 
-	//Properties
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 1.0F;
+		return 1.1F;
+	}
+
+	@Override
+	public boolean canFly() {
+		return true;
 	}
 
 	protected boolean shouldDrown() {

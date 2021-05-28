@@ -1,4 +1,4 @@
-package com.gmail.sneakdevs.nightmares.entity;
+package com.gmail.sneakdevs.nightmares.entity.entity;
 
 import java.util.Random;
 import net.minecraft.entity.EntityType;

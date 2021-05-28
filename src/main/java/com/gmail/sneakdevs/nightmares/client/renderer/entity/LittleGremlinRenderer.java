@@ -1,7 +1,7 @@
 package com.gmail.sneakdevs.nightmares.client.renderer.entity;
 
 import com.gmail.sneakdevs.nightmares.client.model.entity.LittleGremlinModel;
-import com.gmail.sneakdevs.nightmares.entity.LittleGremlinEntity;
+import com.gmail.sneakdevs.nightmares.entity.entity.LittleGremlinEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
