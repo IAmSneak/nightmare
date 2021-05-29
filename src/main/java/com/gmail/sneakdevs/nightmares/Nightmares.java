@@ -12,6 +12,7 @@ import software.bernie.geckolib3.GeckoLib;
 public class Nightmares implements ModInitializer {
 
 	public static final String MODID = "nightmares";
+	public static boolean canNoClip = false;
 
 	@Override
 	public void onInitialize() {

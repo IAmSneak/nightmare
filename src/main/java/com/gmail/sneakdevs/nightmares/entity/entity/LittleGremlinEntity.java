@@ -1,5 +1,6 @@
 package com.gmail.sneakdevs.nightmares.entity.entity;
 
+import com.gmail.sneakdevs.nightmares.goals.PhaseTargetGoal;
 import com.gmail.sneakdevs.nightmares.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -58,6 +59,7 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 		this.goalSelector.add(2, new FleeEntityGoal(this, SpiderEntity.class, 10.0F, 1.0D, 1.2D));
 		this.goalSelector.add(1, new SwimGoal(this));
 		this.goalSelector.add(3, new AttackGoal(this));
+		this.goalSelector.add(4, new PhaseTargetGoal(this));
 		this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
 		this.targetSelector.add(4, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(3, new FollowTargetGoal(this, PlayerEntity.class, false));
@@ -80,8 +82,8 @@ public class LittleGremlinEntity extends NightmaresEntity implements IAnimatable
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
+		return createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5000.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 40.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D)
 				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5F);
 	}

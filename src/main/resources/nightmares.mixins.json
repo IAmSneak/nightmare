@@ -4,7 +4,8 @@
   "package": "com.gmail.sneakdevs.nightmares.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
   ],

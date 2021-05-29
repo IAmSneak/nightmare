@@ -5,24 +5,13 @@ import java.util.Random;
 
 import com.gmail.sneakdevs.nightmares.entity.entity.LittleGremlinEntity;
 import com.gmail.sneakdevs.nightmares.util.registry.EntityRegistry;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.PhantomEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.stat.ServerStatHandler;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.SpawnHelper;
-import net.minecraft.world.gen.Spawner;
 
 public class LittleGremlinSpawner {
 
